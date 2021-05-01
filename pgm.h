@@ -1,3 +1,4 @@
+#include <limits.h>
 #ifndef _PGM_H_
 #define _PGM_H_
 
