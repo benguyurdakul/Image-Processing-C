@@ -32,8 +32,8 @@ PGMInfo pgm_read(const char *filename) {
 
     /* TODO: Dosyayi acin. Eger dosya acilamazsa pgm_info'nun error
      * uyesini PGM_ERROR_READ yapip fonksiyonu sonlandirin. */
-    FILE *fp=fopen(filename,"r");//dosya actik
-    if(fp==NULL){//kontrol
+    FILE *pgm=fopen(filename,"r");//dosya actik
+    if(pgm==NULL){//kontrol
     	pgm_info.error=1;//error kodunu dosya hatasina esitledik
     	return pgm_info;
     }
@@ -52,7 +52,7 @@ PGMInfo pgm_read(const char *filename) {
 
     /* Comment satirini oku. */
     //fscanf(pgm,"%s",pgm_info.comment);
-    int ch=fgetc(fp);
+    int ch=fgetc(pgm);
     if(ch=='#'){
     	while(ch!=EOF){
     		fscanf(ch,"%c",pgm_info.comment);
@@ -61,6 +61,8 @@ PGMInfo pgm_read(const char *filename) {
     }
 
     /* TODO: En ve boyu oku */
+    //en kisminda error veriyor width diye bir uyesi yok diyor.
+    //neden anlamadim. sacmaliyor.
     fscanf(pgm,"%d",pgm_info.widht);//en
     fscanf(pgm,"%d",pgm_info.height);//boy
 
@@ -97,7 +99,7 @@ PGMInfo pgm_read(const char *filename) {
     		fgets(line,sizeof(line),pgm);
 
     		if(line!='\n'){
-    			pgm_into.pixels[i]=atoi(line);
+    			pgm_info.pixels[i]=atoi(line);
     			read++;
     		}
 
@@ -138,7 +140,7 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
     }
 
     /* TODO: Baslik yapisini fprintf() ile dosyaya yazin */
-    fprintf(pgm,"%s\n",pgm_info,signature);
+    fprintf(pgm,"%s\n",pgm_info.signature);
     fprintf(pgm,"%s",pgm_info.comment);
     fprintf(pgm,"%d\n",pgm_info.width);
     fprintf(pgm,"%d\n",pgm_info.height);
@@ -146,13 +148,13 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
 
 
     /* TODO: 2 farkli dosya bicimi, 2 farkli yazma bicimi */
-    switch(pgm_info.signature[1]{
+    switch(pgm_info.signature[1]){
     case'2':
-    for(i=0;i<pgm_info.width*pgm_info.height-1,i++){
-    	fprintf(pgm,"%d\n",pgm_info.pixels[i])
+    for(i=0;i<pgm_info.width*pgm_info.height-1;i++){
+    	fprintf(pgm,"%d\n",pgm_info.pixels[i]);
     }
     break;
-    case'5';
+    case'5':
     fwrite(pgm_info.pixels,pgm_info.width*pgm_info.height,1,pgm);
     break;
 
