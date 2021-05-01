@@ -5,6 +5,7 @@
 #define PGM_ERROR_READ          1
 #define PGM_ERROR_SIGNATURE     2
 #define PGM_ERROR_MALLOC        3
+#include <limits.h>
 
 /* Hata kodlarinin string karsiliklari */
 static char *pgm_error_messages[] = {
