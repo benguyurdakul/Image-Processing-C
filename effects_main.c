@@ -6,6 +6,7 @@
 #include "pgm.h"
 #include "effects.h"
 
+
 /* PROGRAMIN ORNEK KULLANIMI:
  *
  *      $ ./pgm_efekt

@@ -29,26 +29,69 @@ PGMInfo pgm_read(const char *filename) {
     char line[LINE_MAX];
     int i = 0;
     int read = 0;
+    struct a {
+	int value_i;  //uyarilari yok edebilmek icin struct tipi olusturdum
+	char *value_c;
+    } A;
 
     /* TODO: Dosyayi acin. Eger dosya acilamazsa pgm_info'nun error
      * uyesini PGM_ERROR_READ yapip fonksiyonu sonlandirin. */
+    FILE *fp = fopen(filename,"r");
+    if (fp == NULL){
+    	pgm_info.error = PGM_ERROR_READ;
+	exit(1);
+    }
 
 
     /* TODO: PGM imzasi P2 veya P5 degilse dosyayi kapatin, error'u
      * PGM_ERROR_SIGNATURE yapip fonksiyonu sonlandirin. */
+    A.value_i = fscanf(fp,"%s\n",pgm_info.signature);
+    //uyarıyı yok etmek icin struct'a atadim yoksa gereksiz
 
-    /* Comment satirini oku. */
+    if (strcmp(pgm_info.signature,"P2")!=0) {
+	if (strcmp(pgm_info.signature,"P5")!=0) {
+		fclose(fp);
+		pgm_info.error = PGM_ERROR_SIGNATURE;
+		exit(1);
+    	}
+    }
+   
+	
+    printf("\nImza : %s\n",pgm_info.signature); //test
+	
+
+    /* TODO Comment satirini oku. */ 
+    A.value_c = fgets(pgm_info.comment,LINE_MAX,fp);;
+    printf("comment : %s", pgm_info.comment);  //test
+    
+    
 
     /* TODO: En ve boyu oku */
+    A.value_i = fscanf(fp,"%d %d\n",&(pgm_info.width), &(pgm_info.height));
 
-    /* Max piksel degerini oku */
+
+    printf("width : %d\n", pgm_info.width); //test
+    printf("height : %d\n", pgm_info.height); //test
+
+    /* TODO Max piksel degerini oku */
+    char temp[LINE_MAX];
+    A.value_i = fscanf(fp,"%s\n",temp);
+    pgm_info.max_pixel_value = (char) atoi(temp);
+    printf("max pixel value : %d\n", pgm_info.max_pixel_value);
 
     /* TODO: pgm_info.pixels icin malloc() ile yer ayiralim.
      * Bir piksel bellekte 1 bayt yer istiyor, unutmayalim. */
+    int size = (pgm_info.width)*(pgm_info.height);
+    pgm_info.pixels = malloc(size);
 
 
     /* TODO: malloc() ile yer ayrilamazsa dosyayi kapatin, error'u
      * PGM_ERROR_MALLOC yapip fonksiyonu sonlandirin.*/
+    if (!pgm_info.pixels) {
+    	pgm_info.error = PGM_ERROR_MALLOC;
+	fclose(fp);
+        exit(1);
+    }
 
 
     /* 2 farkli dosya bicimi, 2 farkli okuma bicimi.
@@ -63,8 +106,36 @@ PGMInfo pgm_read(const char *filename) {
 
     /* Eger dogru okuma yapamadiysaniz programiniz assert() sayesinde
      * yarida kesilecek. */
+    if (strcmp(pgm_info.signature, "P5") == 0) {  //Binary
+    	read = fread(pgm_info.pixels,1,size,fp);
+    }
+    else { //ASCII duzgun calismiyor
+        for (i=0; i<size; i=i+1) { 
+       		A.value_c = fgets(line,LINE_MAX,fp); 
+        	line[strlen(line)-1] = '\0';
+        	pgm_info.pixels[i] = (char)atoi(line); 
+        }
+        read = i;
+        }
+        /*i = 0;
+    	while(fgets(line,LINE_MAX,fp) != NULL) {
+        	line[strlen(line)-1] = '\0';    
+		pgm_info.pixels[i] = (char)atoi(line); //uyari veriyordu
+                i = i+1;
+        }
+        read = atoi(pgm_info.pixels);
+        //ya da 
+        //read = size; //anlamadim ki 
+    } */ 
+    // yedek kod ama calismiyor bu da
+	
+    
+    fclose(fp); 
+    
     printf("Read %d bytes. (Should be: %d)\n", read, pgm_info.width * pgm_info.height);
-    assert(read == (pgm_info.width * pgm_info.height));
+    assert(read == (size));
+    
+    pgm_write("sonuc.txt",pgm_info);  //test
 
     return pgm_info;
 }
@@ -79,16 +150,30 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
 
     int i;
     FILE *pgm;
+    
 
     /* TODO: Dosyayi write kipinde acin. Acma basarisiz olursa fonksiyon
      * 1 dondurerek sonlanmalidir. */
+    pgm = fopen(filename,"w");
+    if (pgm == NULL) return 1;
 
     /* TODO: Baslik yapisini fprintf() ile dosyaya yazin */
+    fprintf(pgm,"%s\n%s\n%d %d\n%d\n",pgm_info.signature,pgm_info.comment, pgm_info.width,pgm_info.height,pgm_info.max_pixel_value);
 
     /* TODO: 2 farkli dosya bicimi, 2 farkli yazma bicimi */
+    int size = (pgm_info.width)*(pgm_info.height);
+    if (strcmp(pgm_info.signature,"P5") == 0) {  //binary
+    	fwrite(pgm_info.pixels,sizeof(char),size,pgm);
+    }
+    else {
+        for (i=0; i<size; i=i+1) {
+    		fprintf(pgm,"%d\n",pgm_info.pixels[i]);  //ascii
+	}
+    }
 
     
     /* Dosyayi kapatalim. */
     fclose(pgm);
     return 0;
 }
+

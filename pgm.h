@@ -1,5 +1,6 @@
 #ifndef _PGM_H_
 #define _PGM_H_
+#include <limits.h>  //LINE_MAX tanimli degil hatasi verdigi icin ekledim
 
 /* Hata kodlari */
 #define PGM_ERROR_READ          1
@@ -18,7 +19,7 @@ static char *pgm_error_messages[] = {
 
 typedef struct {
     char signature[3];              // PGM imzasi
-    char comment[LINE_MAX];         // opsiyonel yorum satiri
+    char comment[LINE_MAX];         // opsiyonel yorum satiri LINE_MAX hata veriyor!
     int width;                      // resmin eni
     int height;                     // resmin boyu
     unsigned char max_pixel_value;  // bir pikselin max degeri

@@ -1,4 +1,5 @@
 #include "effects.h"
+#include <stdlib.h>
 
 void effect_random_noise(unsigned char *pixels, int width, int height) {
     int nr_noisy_pixel = (width * height) / 5; // %5 oraninda noise ekle
