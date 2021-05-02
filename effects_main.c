@@ -5,7 +5,7 @@
 /* Kendi baslik dosyalarimizi include ediyoruz */
 #include "pgm.h"
 #include "effects.h"
-
+#include <time.h>
 /* PROGRAMIN ORNEK KULLANIMI:
  *
  *      $ ./pgm_efekt
@@ -22,18 +22,30 @@ int main(int argc, char *argv[])
      * doldurun.
      */
 
-    int i;
     /* Komut satirindan gelen efekt adi */
     char *effect_name = argv[1];
+    
+    
 
     /* TODO: Bazi efektlerin ihtiyac duyabilecegi rand() rassal
      * sayi uretecini seed edin. */
+    
+
+    
 
 
     /* argv[0]:     Programin adi
      * argv[1]:     Efekt cesidi: invert, binarize, noise, smooth
      * argv[2] ...  argv[argc-1]: Dosya adi veya adlari
      */
+
+      //strcat fonksiyonu dongunun ikinci adiminda hata veriyor
+      //hata vermesinin nedeni sanirim ilkini atarken ikincinin yapisini bozmasi
+      //sscanfi arastirirken sprintf i buldum.
+
+      
+      
+    
 
     /* Butun argumanlari gez. Her biri bir resim dosyasi adi */
         /* TODO: PGM dosyasini oku */
