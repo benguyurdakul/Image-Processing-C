@@ -15,7 +15,13 @@ void effect_random_noise(unsigned char *pixels, int width, int height) {
  */
 void effect_invert(unsigned char *pixels, int width, int height) {
 
+    int i,num_pixels = width*height;
 
+    for ( i = 0; i < num_pixels; i++)
+    {
+        pixels[i] = 255-pixels[i];
+    }
+    
 }
 
 /* TODO: Verilen bir esik degerin altinda kalan pikselleri siyah,
@@ -23,6 +29,13 @@ void effect_invert(unsigned char *pixels, int width, int height) {
  */
 void effect_threshold(unsigned char *pixels, int width, int height, int threshold) {
 
-  
+    int i,num_pixels = width*height;
 
+    for ( i = 0; i < num_pixels; i++)
+    {
+        if(pixels[i]<threshold) pixels[i] = 255;
+    
+        if(pixels[i]>threshold) pixels[i] = 0 ;
+    }
+    
 }
