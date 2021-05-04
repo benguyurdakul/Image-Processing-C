@@ -6,7 +6,6 @@
 void effect_invert(unsigned char *pixels, int width, int height);
 void effect_threshold(unsigned char *pixels, int width, int height, int threshold);
 void effect_random_noise(unsigned char *pixels, int width, int height);
-void effect_smooth(unsigned char *pixels, int width, int height);
 
 #endif
 

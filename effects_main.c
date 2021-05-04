@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 
     /* argv[0]:     Programin adi
-     * argv[1]:     Efekt cesidi: invert, binarize, noise, smooth
+     * argv[1]:     Efekt cesidi: invert, binarize, noise
      * argv[2] ...  argv[argc-1]: Dosya adi veya adlari
      */
 
@@ -73,9 +73,9 @@ int main(int argc, char *argv[])
         else if (strcmp(effect_name, "noise") == 0) {
 		effect_random_noise(retval.pixels, retval.width, retval.height);
         }
-        else { //smooth
+        /*else { //new effect 1
 		effect_smooth(retval.pixels, retval.width, retval.height);
-        }
+        } */
 	pgm_write(new_doc, retval);
         if (new_doc == NULL) {
         	printf("ERROR! THE PGM FILE COULD NOT BE CREATED");

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 void effect_random_noise(unsigned char *pixels, int width, int height) {
-    int nr_noisy_pixel = (width * height) / 5; // %5 oraninda noise ekle
+    int nr_noisy_pixel = (width * height) / 5; // %20 oraninda noise ekle
     int i;
 
     for (i = 0; i < nr_noisy_pixel; ++i ) {
