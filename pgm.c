@@ -51,20 +51,18 @@ PGMInfo pgm_read(const char *filename) {
     }*/
 
     /* Comment satirini oku. */
-    //fscanf(pgm,"%s",pgm_info.comment);
+    //fsacnf(pgm,"%s",pgm_info.comment);
     int ch=fgetc(pgm);
     if(ch=='#'){
     	while(ch!=EOF){
-    		fscanf(ch,"%c",pgm_info.comment);
+    		fscanf(pgm,"%s",pgm_info.comment);
 
     	}
     }
 
     /* TODO: En ve boyu oku */
-    //en kisminda error veriyor width diye bir uyesi yok diyor.
-    //neden anlamadim. sacmaliyor.
-    fscanf(pgm,"%d",pgm_info.widht);//en
-    fscanf(pgm,"%d",pgm_info.height);//boy
+    fscanf(pgm,"%d,%d",pgm_info.width,pgm_info.height);//en
+   // fscanf(pgm,"%d",pgm_info.height);//boy
 
     /* Max piksel degerini oku */
     fscanf(pgm,"%d",pgm_info.max_pixel_value);
@@ -141,7 +139,7 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
 
     /* TODO: Baslik yapisini fprintf() ile dosyaya yazin */
     fprintf(pgm,"%s\n",pgm_info.signature);
-    fprintf(pgm,"%s",pgm_info.comment);
+    fprintf(pgm,"%s\n",pgm_info.comment);
     fprintf(pgm,"%d\n",pgm_info.width);
     fprintf(pgm,"%d\n",pgm_info.height);
     fprintf(pgm,"%d\n",pgm_info.max_pixel_value);
@@ -152,8 +150,8 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
     case'2':
     for(i=0;i<pgm_info.width*pgm_info.height-1;i++){
     	fprintf(pgm,"%d\n",pgm_info.pixels[i]);
-    }
     break;
+    }
     case'5':
     fwrite(pgm_info.pixels,pgm_info.width*pgm_info.height,1,pgm);
     break;
@@ -163,4 +161,3 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
     fclose(pgm);
     return 0;
 }
-
