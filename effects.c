@@ -17,7 +17,7 @@ void effect_random_noise(unsigned char *pixels, int width, int height) {
 void effect_invert(unsigned char *pixels, int width, int height) {
 	int i;
 	for(i=0;i<height*width;i++){
-		pixels[i]=256-pixels[i];
+		pixels[i]=255-pixels[i];
 	}
 
 }
@@ -27,11 +27,11 @@ void effect_invert(unsigned char *pixels, int width, int height) {
  */
 void effect_threshold(unsigned char *pixels, int width, int height, int threshold) {
 	int i;
-	for(i=0;i<height*width-1;i++){
+	for(i=0;i<height*width;i++){
 		if(pixels[i]<threshold)
-			pixels[i]=0;
-		else
 			pixels[i]=255;
+		else
+			pixels[i]=0;
 	}
 
 }
