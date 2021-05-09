@@ -22,13 +22,22 @@ int main(int argc, char *argv[])
      * doldurun.
      */
 
+    if(argc<3){
+        printf("Usage: %s <PGM image1>.....<PGM image n>\n",argv[0]);
+        exit(1);
+    }
+
     /* Komut satirindan gelen efekt adi */
     char *effect_name = argv[1];
+    int i,control ;
+    char new_filename[50];
+    PGMInfo new_pgm; 
     
     
 
     /* TODO: Bazi efektlerin ihtiyac duyabilecegi rand() rassal
      * sayi uretecini seed edin. */
+    srand(time(NULL));
     
 
     
@@ -39,28 +48,63 @@ int main(int argc, char *argv[])
      * argv[2] ...  argv[argc-1]: Dosya adi veya adlari
      */
 
-      //strcat fonksiyonu dongunun ikinci adiminda hata veriyor
-      //hata vermesinin nedeni sanirim ilkini atarken ikincinin yapisini bozmasi
-      //sscanfi arastirirken sprintf i buldum.
+    for (int i = 2; i <argc; i++)
+    {
+        new_pgm = pgm_read(argv[i]);
+        //resim dosyasini okuma     
+        if(new_pgm.error>0){
+
+            pgm_print_error(new_pgm);
+            exit(1);
+        }
+        //okumada bir hata varsa programı durdurma.
+
+        pgm_print_header(new_pgm);
+        //resim bilgilerini ekrana basma.
+
+        sprintf(new_filename,"%s.%s",argv[i],effect_name);
+
+        if(strcmp(effect_name,"invert")==0){
+            
+            effect_invert(new_pgm.pixels,new_pgm.width,new_pgm.height);
+        }
+
+        else if(strcmp(effect_name,"binarize")==0){
+
+            effect_threshold(new_pgm.pixels,new_pgm.width,new_pgm.height,130);
+        }
+
+        else if(strcmp(effect_name,"noise")==0){
+
+            effect_random_noise(new_pgm.pixels,new_pgm.width,new_pgm.height);
+        }
+
+        else{
+            
+            printf("Invalid Effect!\n");
+            return 0;
+        }
+        //uygulanacak efektin saptanmasi ve uygulanmasi
+
+        control = pgm_write(new_filename,new_pgm);
+
+        if(control){
+            
+            printf("Error writing PGM file!\n");
+            exit(1);
+        }
+
+        free(new_pgm.pixels);
+
+    }
+    
+      
 
       
       
     
 
-    /* Butun argumanlari gez. Her biri bir resim dosyasi adi */
-        /* TODO: PGM dosyasini oku */
-        /* Hata olduysa ekrana hata mesajini yazdir */
-        /* Hata yoksa resmin baslik bilgisini ekrana yazdir,
-         * resme efekt uygula ve yeni dosyaya kaydet. */
-            /* Yeni bir string olustur. Bu string efekt uygulanmis
-             * dosyanin adini tutacaktir. */
-
-            /* Hangi efekt istendiyse ilgili fonksiyon cagir*/
-
-            /* TODO: Yeni PGM dosyasini olusturun. Eger basarisiz olursa
-             * ekrana yazdirin. */
-
-            /* TODO: pgm_info'daki pixels dizisini free() etmeliyiz. */
+    
 
     return 0;
 }
