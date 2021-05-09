@@ -15,6 +15,10 @@ void effect_random_noise(unsigned char *pixels, int width, int height) {
  * yeni degeri olarak belirler.
  */
 void effect_invert(unsigned char *pixels, int width, int height) {
+    int i;
+    for (i=0; i<(width*height); i=i+1) {
+	pixels[i] = 255-pixels[i];
+    }
 
 }
 
@@ -22,5 +26,15 @@ void effect_invert(unsigned char *pixels, int width, int height) {
  * uzerinde kalanlari ise beyaz yaparak 2 renkli bir resim olusturur.
  */
 void effect_threshold(unsigned char *pixels, int width, int height, int threshold) {
+    int i;
+    for (i=0; i<(width*height); i=i+1) {
+	if (pixels[i] > threshold) {
+		pixels[i] = 255;
+        }
+        else {
+		pixels[i] = 0;
+        }
+    }
 
 }
+

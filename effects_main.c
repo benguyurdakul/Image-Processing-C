@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
     /* TODO: Bazi efektlerin ihtiyac duyabilecegi rand() rassal
      * sayi uretecini seed edin. */
     srand(time(NULL));
-    int rand_value = rand() % 256;
+    int rand_value = 1 + rand() % 254; //0 ve 255 dahil olmasin diye
+    printf("rand value : %d\n",rand_value);
 
 
     /* argv[0]:     Programin adi
@@ -54,15 +55,17 @@ int main(int argc, char *argv[])
              * dosyanin adini tutacaktir. */
 
     PGMInfo retval;  //geridonus degeri
-    char *new_doc;   //saklanacak string
+    char new_doc[100];   //saklanacak string
     for (i=2; i<argc; i=i+1) {
 	retval = pgm_read(argv[i]);
-        if (retval.error == 1 || retval.error == 2 || retval.error == 3) {
+        if (retval.error > 0) {
 		printf("ERROR! THE PGM FILE CANNOT BE READ\n");
                 exit(1);
         }
 
 	pgm_print_header(retval);
+
+        sprintf(new_doc, "%s.%s",argv[i],effect_name); //NEDEN?
   
 	if (strcmp(effect_name, "invert") == 0) {
 		effect_invert(retval.pixels, retval.width, retval.height);
@@ -73,11 +76,8 @@ int main(int argc, char *argv[])
         else if (strcmp(effect_name, "noise") == 0) {
 		effect_random_noise(retval.pixels, retval.width, retval.height);
         }
-        /*else { //new effect 1
-		effect_smooth(retval.pixels, retval.width, retval.height);
-        } */
-	pgm_write(new_doc, retval);
-        if (new_doc == NULL) {
+	
+        if (pgm_write(new_doc, retval) != 0) {
         	printf("ERROR! THE PGM FILE COULD NOT BE CREATED");
 		exit(1);
         }
@@ -92,9 +92,10 @@ int main(int argc, char *argv[])
 
             /* TODO: pgm_info'daki pixels dizisini free() etmeliyiz. */
     int size = retval.height * retval.width;
-    for (i=0; i<size; i=i+1) {
+    /*for (i=0; i<size; i=i+1) {
 	free(&retval.pixels[i]);
-    }
+    }*/
+    free(retval.pixels);
 
 
     return 0;
