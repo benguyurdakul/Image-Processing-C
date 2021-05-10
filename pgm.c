@@ -134,8 +134,6 @@ PGMInfo pgm_read(const char *filename) {
     
     printf("Read %d bytes. (Should be: %d)\n", read, pgm_info.width * pgm_info.height);
     assert(read == (size));
-    
-    pgm_write("sonuc.txt",pgm_info);  //test
 
     return pgm_info;
 }
@@ -155,7 +153,7 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
     /* TODO: Dosyayi write kipinde acin. Acma basarisiz olursa fonksiyon
      * 1 dondurerek sonlanmalidir. */
     pgm = fopen(filename,"w");
-    if (pgm == NULL) return 1;
+    if (!pgm) return 1;
 
     /* TODO: Baslik yapisini fprintf() ile dosyaya yazin */
     fprintf(pgm,"%s\n%s\n%d %d\n%d\n",pgm_info.signature,pgm_info.comment, pgm_info.width,pgm_info.height,pgm_info.max_pixel_value);
