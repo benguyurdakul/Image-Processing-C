@@ -38,3 +38,48 @@ void effect_threshold(unsigned char *pixels, int width, int height, int threshol
 
 }
 
+//kullanicinin istedigi yuzdelikle her pikselin rengini siyaha (0)
+//yakinlastirarak grilestirme/koyulastirma efekti
+void effect_darker(unsigned char *pixels, int width, int height, int percentage) {
+	int dark_value, i;
+	int size = width * height;
+	for (i=0; i<size; i=i+1) {
+        	dark_value = (pixels[i] * percentage)/100;
+		pixels[i] = pixels[i]-dark_value;		
+        }
+
+}
+
+
+//fotografi sag 90 derece donduren efekt
+void effect_turn_90 (unsigned char *pixels, int width, int height) {
+	int i, k, j=0;
+	int size = width*height;
+//orijinal diziyi saklamak icin yeni yer aciyoruz. 
+	unsigned char *copy_pixels = malloc(size); 
+	if (copy_pixels == NULL) exit(1);
+	for (i=0; i<size; i=i+1) {
+		copy_pixels[i] = pixels[i];
+	}
+//orijinal diziyi, saklanmis diziyi kullanarak yeniden sekillendiriyoruz
+	for (i=0; i<width; i=i+1) {
+		for (k=(height-1); k>=0; k=k-1) {
+			pixels[j] = copy_pixels[k*width + i]; 
+			j = j + 1;
+		}
+
+        }
+	free(copy_pixels); //yeri bosaltiyoruz
+}
+
+//fotografi 180 derece donduren efekt
+void effect_turn_180 (unsigned char *pixels, int width, int height) {
+	int temp, i, k, size = width*height;
+	int end = size-1;  //sonuncu indeks
+	for (i=0; i<size/2; i=i+1) { //yarisini degistirmek yetiyor
+		temp = pixels[i]; 
+		pixels[i] = pixels[end-i]; //yer degistiriyoruz
+		pixels[end-i] = temp; 
+        }
+}
+
