@@ -56,16 +56,7 @@ void mirror_effect(unsigned char *pixels,int width,int height){
     	for(k=0;k<j;k++){
     		pixels[i]=pixels[width-1];
     	}
-
     }
-
 }
 
-
-void dark_effect(unsigned char *pixels,int width,int height,int dark){
-	int i;
-	for(i=0;i<height*width;i++){
-		pixels[i]=pixels[i]-dark;
-	}
-}
 
