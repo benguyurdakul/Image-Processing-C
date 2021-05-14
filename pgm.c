@@ -29,10 +29,12 @@ PGMInfo pgm_read(const char *filename) {
     char line[LINE_MAX];
     int i = 0;
     int read = 0;
+   //uyarilari yok edebilmek icin struct tipi olusturdum
     struct a {
-	int value_i;  //uyarilari yok edebilmek icin struct tipi olusturdum
+	int value_i;  
 	char *value_c;
     } A;
+
 
     /* TODO: Dosyayi acin. Eger dosya acilamazsa pgm_info'nun error
      * uyesini PGM_ERROR_READ yapip fonksiyonu sonlandirin. */
@@ -46,7 +48,7 @@ PGMInfo pgm_read(const char *filename) {
     /* TODO: PGM imzasi P2 veya P5 degilse dosyayi kapatin, error'u
      * PGM_ERROR_SIGNATURE yapip fonksiyonu sonlandirin. */
     A.value_i = fscanf(fp,"%s\n",pgm_info.signature);
-    //uyarıyı yok etmek icin struct'a atadim yoksa gereksiz
+   //uyarıyı yok etmek icin struct'a atadim yoksa gereksiz
 
     if (strcmp(pgm_info.signature,"P2")!=0) {
 	if (strcmp(pgm_info.signature,"P5")!=0) {
@@ -56,28 +58,19 @@ PGMInfo pgm_read(const char *filename) {
     	}
     }
    
-	
-    printf("\nImza : %s\n",pgm_info.signature); //test
-	
 
     /* TODO Comment satirini oku. */ 
     A.value_c = fgets(pgm_info.comment,LINE_MAX,fp);;
-    printf("comment : %s", pgm_info.comment);  //test
-    
     
 
     /* TODO: En ve boyu oku */
     A.value_i = fscanf(fp,"%d %d\n",&(pgm_info.width), &(pgm_info.height));
 
 
-    printf("width : %d\n", pgm_info.width); //test
-    printf("height : %d\n", pgm_info.height); //test
-
     /* TODO Max piksel degerini oku */
-    char temp[LINE_MAX];
-    A.value_i = fscanf(fp,"%s\n",temp);
-    pgm_info.max_pixel_value = (char) atoi(temp);
-    printf("max pixel value : %d\n", pgm_info.max_pixel_value);
+    char temp[LINE_MAX];  //saklamak icin olusturduk
+    A.value_i = fscanf(fp,"%s\n",temp); //temp icine okuduk
+    pgm_info.max_pixel_value = (char) atoi(temp); //gerekli tip donusumu yapip atadik
 
     /* TODO: pgm_info.pixels icin malloc() ile yer ayiralim.
      * Bir piksel bellekte 1 bayt yer istiyor, unutmayalim. */
@@ -109,25 +102,14 @@ PGMInfo pgm_read(const char *filename) {
     if (strcmp(pgm_info.signature, "P5") == 0) {  //Binary
     	read = fread(pgm_info.pixels,1,size,fp);
     }
-    else { //ASCII duzgun calismiyor
+    else { //ASCII
         for (i=0; i<size; i=i+1) { 
-       		A.value_c = fgets(line,LINE_MAX,fp); 
-        	line[strlen(line)-1] = '\0';
-        	pgm_info.pixels[i] = (char)atoi(line); 
+       		A.value_c = fgets(line,LINE_MAX,fp); //line icine okuduk
+        	line[strlen(line)-1] = '\0'; //sondaki \n karakterini bosluk ile degistirdik
+        	pgm_info.pixels[i] = (char)atoi(line); //gerekli tip donusumlerini yapip atadik
         }
         read = i;
         }
-        /*i = 0;
-    	while(fgets(line,LINE_MAX,fp) != NULL) {
-        	line[strlen(line)-1] = '\0';    
-		pgm_info.pixels[i] = (char)atoi(line); //uyari veriyordu
-                i = i+1;
-        }
-        read = atoi(pgm_info.pixels);
-        //ya da 
-        //read = size; //anlamadim ki 
-    } */ 
-    // yedek kod ama calismiyor bu da
 	
     
     fclose(fp); 
@@ -160,12 +142,12 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
 
     /* TODO: 2 farkli dosya bicimi, 2 farkli yazma bicimi */
     int size = (pgm_info.width)*(pgm_info.height);
-    if (strcmp(pgm_info.signature,"P5") == 0) {  //binary
+    if (strcmp(pgm_info.signature,"P5") == 0) {  //BINARY
     	fwrite(pgm_info.pixels,sizeof(char),size,pgm);
     }
     else {
         for (i=0; i<size; i=i+1) {
-    		fprintf(pgm,"%d\n",pgm_info.pixels[i]);  //ascii
+    		fprintf(pgm,"%d\n",pgm_info.pixels[i]);  //ASCII
 	}
     }
 
