@@ -78,6 +78,21 @@ int main(int argc, char *argv[])
 
             effect_random_noise(new_pgm.pixels,new_pgm.width,new_pgm.height);
         }
+        
+        
+        else if(strcmp(effect_name,"mirror")==0){
+            
+            effect_mirror(new_pgm.pixels,new_pgm.width,new_pgm.height);
+        }
+        
+        else if(strcmp(effect_name,"turn_90")==0){
+
+            effect_turn_90(new_pgm.pixels,new_pgm.width,new_pgm.height);
+
+            int temp = new_pgm.width;   
+			new_pgm.width = new_pgm.height; 
+			new_pgm.height = temp; 
+        }
 
         else{
             
