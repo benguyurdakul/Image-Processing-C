@@ -35,3 +35,37 @@ void effect_threshold(unsigned char *pixels, int width, int height, int threshol
 	}
 
 }
+
+void upside_down(unsigned char *pixels,int width,int height){
+	int i;
+	for(i=0;i<height*width;i++){
+		pixels[i]=pixels[height*width-(i+1)];
+	}
+}
+
+
+
+void mirror_effect(unsigned char *pixels,int width,int height){
+	int i,k;
+	if(width%2==0){
+		int j=width/2;
+	}
+	else
+		j=(width-1)/2;
+    for(i=0;i<height-1;i++){
+    	for(k=0;k<j;k++){
+    		pixels[i]=pixels[width-1];
+    	}
+
+    }
+
+}
+
+
+void dark_effect(unsigned char *pixels,int width,int height,int dark){
+	int i;
+	for(i=0;i<height*width;i++){
+		pixels[i]=pixels[i]-dark;
+	}
+}
+
