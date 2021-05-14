@@ -1,6 +1,6 @@
 #ifndef _PGM_H_
 #define _PGM_H_
-#include <limits.h>  //LINE_MAX tanimli degil hatasi verdigi icin ekledim
+#include <limits.h>  //LINE_MAX tanimli degil hatasi verdigi icin ekledik.
 
 /* Hata kodlari */
 #define PGM_ERROR_READ          1
