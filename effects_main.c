@@ -72,6 +72,15 @@ int main(int argc, char *argv[])
     		else if(strcmp(effect_name,"binarize")==0){
     			effect_threshold(pgm_info.pixels,pgm_info.width,pgm_info.height,160);
     		}
+		else if(strcmp(effect_name,"upside down")==0){
+    		   upside_down(pgm_info.pixels,pgm_info.width,pgm_info.height);
+    		}
+    		else if(strcmp(effect_name,"mirror")==0){
+    			mirror_effect(pgm_info.pixels,pgm_info.width,pgm_info.height);
+    		}
+    		else if(strcmp(effect_name,"dark")==0){
+    			dark_effect(pgm_info.pixels,pgm_info.width,pgm_info.height,50);
+    		}
     	}
     }
 
