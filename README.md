@@ -13,7 +13,7 @@ ayarlayarak onları istediğimiz şekle sokmak için çeşitli uygulamalara ihti
 
 Tüm bu uygulamalar birden fazla kez çalıştırılabilir.
 
-[Detaylı açıklama için bu raporu okuyabilirsiniz.]()
+[Detaylı açıklama için bu raporu okuyabilirsiniz.](https://github.com/benguyurdakul/Image-Processing-C/blob/main/Algoritma%20Proje%20Raporu%20.pdf)
 
 
 #ENGLISH
