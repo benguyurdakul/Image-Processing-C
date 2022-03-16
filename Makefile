@@ -17,3 +17,4 @@ pgm_median: pgm.o median_main.o
 
 clean:
 	rm -rf *.o pgm_efekt pgm_median binarize_* noise_* invert_* smooth_* rotate_*
+
