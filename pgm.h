@@ -33,4 +33,3 @@ PGMInfo pgm_read(const char *filename);
 int pgm_write(const char *filename, PGMInfo pgm_info);
 
 #endif
-
