@@ -185,3 +185,4 @@ int pgm_write(const char *filename, PGMInfo pgm_info) {
     fclose(pgm);
     return 0;
 }
+
